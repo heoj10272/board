@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
+
+    <th:block th:fragment="content">
+
+        <h1 class="mt-4">Board List Page
+            <span>
+                <a sec:authorize="isAuthenticated()"th:href="@{/board/register}">
+                    <button type="button" class="btn btn-outline-primary">REGISTER
+                    </button>
+                </a>
+                <a sec:authorize="!isAuthenticated()"th:href="@{/login}">
+                    <button type="button" class="btn btn-outline-primary">LOG IN
+                    </button>
+                </a>
+                <form th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
+                    <button class="btn btn-info" type="submit">로그아웃</button>
+                </form>
+            </span>
+        </h1>
+<!--        <div sec:authorize="hasRole('USER')">Has USER ROLE</div>-->
+<!--        <div sec:authorize="hasRole('MANAGER')">Has MANAGER ROLE</div>-->
+<!--        <div sec:authorize="hasRole('ADMIN')">Has ADMIN ROLE</div>-->
+
+        <div sec:authorize="isAuthenticated()">
+            <h3>환영합니다 : </h3><div sec:authentication="name"></div>
+            <h3>회원님의 권한 : </h3><div sec:authentication="principal.authorities"></div>
+        </div>
+<!--        <a sec:authorize="isAuthenticated()" class="btn btn-info" th:href="@{/board/register}">글 등록</a>-->
+<!--        <a sec:authorize="!isAuthenticated()" class="btn btn-info" th:href="@{/login}">로그인</a>-->
+<!--        <form th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">-->
+<!--            <button class="btn btn-info" type="submit">로그아웃</button>-->
+<!--        </form>-->
+        <br>
+        <form action="/board/list" method="get" id="searchForm">
+            <div class="input-group">
+                <input type="hidden" name="page" value = "1">
+                <div class="input-group-prepend">
+                    <select class="custom-select" name="type">
+                        <option th:selected="${pageRequestDTO.type == null}">-------</option>
+                        <option value="t" th:selected="${pageRequestDTO.type =='t'}" >제목</option>
+                        <option value="t" th:selected="${pageRequestDTO.type =='c'}"  >내용</option>
+                        <option value="t"  th:selected="${pageRequestDTO.type =='w'}" >작성자</option>
+                        <option value="tc"  th:selected="${pageRequestDTO.type =='tc'}" >제목 + 내용</option>
+                        <option value="tcw"  th:selected="${pageRequestDTO.type =='tcw'}" >제목 + 내용 + 작성자</option>
+                    </select>
+                </div>
+                <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                <div class="input-group-append" id="button-addon4">
+                    <button class="btn btn-outline-secondary btn-search" type="button">Search</button>
+                    <button class="btn btn-outline-secondary btn-clear" type="button">Clear</button>
+                </div>
+            </div>
+        </form>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">File</th>
+                <th scope="col">Writer</th>
+                <th scope="col">Regdate</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="dto : ${result.dtoList}" >
+                <th scope="row">
+                    <a th:href="@{/board/read(bno = ${dto.bno},
+                    page= ${result.page},
+                    type=${pageRequestDTO.type} ,
+                    keyword = ${pageRequestDTO.keyword})}">
+                        [[${dto.bno}]]
+                    </a>
+                </th>
+                <td>
+                    [[${dto.title}]] [<b th:text="${dto.replyCount}"></b>]</td>
+                <td>[<b th:text="${dto.boardFileCount}"></b>]</td>
+                <td>[[${dto.writerName}]] <small>[[${dto.writerEmail}]]</small> </td>
+                <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+            </tr>
+
+
+
+            </tbody>
+        </table>
+
+        <ul class="pagination h-100 justify-content-center align-items-center">
+
+            <li class="page-item " th:if="${result.prev}">
+                <a class="page-link" th:href="@{/board/list(page= ${result.start -1},
+                    type=${pageRequestDTO.type} ,
+                    keyword = ${pageRequestDTO.keyword} ) }" tabindex="-1">Previous</a>
+            </li>
+
+            <li th:class=" 'page-item ' + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
+                <a class="page-link" th:href="@{/board/list(page = ${page} ,
+                   type=${pageRequestDTO.type} ,
+                   keyword = ${pageRequestDTO.keyword}  )}">
+                    [[${page}]]
+                </a>
+            </li>
+
+            <li class="page-item" th:if="${result.next}">
+                <a class="page-link" th:href="@{/board/list(page= ${result.end + 1} ,
+                    type=${pageRequestDTO.type} ,
+                    keyword = ${pageRequestDTO.keyword} )}">Next</a>
+            </li>
+
+        </ul>
+
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+
+            var msg = [[${msg}]];
+
+            console.log(msg);
+
+            if(msg){
+                $(".modal").modal();
+            }
+            var searchForm = $("#searchForm");
+
+            $('.btn-search').click(function(e){
+
+                searchForm.submit();
+
+            });
+
+            $('.btn-clear').click(function(e){
+
+                searchForm.empty().submit();
+
+            });
+
+
+        </script>
+
+    </th:block>
+
+</th:block>
