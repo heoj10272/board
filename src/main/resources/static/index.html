@@ -1,97 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>Simple Sidebar - Start Bootstrap Template</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="css/simple-sidebar.css" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <title>SK엠앤서비스 인턴십</title>
 </head>
-
 <body>
+    SK엔앤서비스 인턴십 과제<br>
+    작성자 : 허재영<br>
+    이메일 : heoj10272@gmail.com<br>
 
-  <div class="d-flex" id="wrapper">
+    SpringBoot로 게시판, 댓글, 첨부파일, 로그인, 소셜로그인 기능 구현<br>
+    데이터베이스로 AWS RDS MySQL 사용
 
-    <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">Start Bootstrap </div>
-      <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
-      </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
+    테스트 계정 ID : user95@sk.com<br>
+    PW : 1111
 
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
+    과제 확인하기 <br>
+    게시판 : <a href="/board/list">게시판 목록</a><br>
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+    현재 goorm ide에 라이브러리가 적용되지 않습니다.<br>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    게시판은 한 페이지에 10개의 글을 노출시키도록 페이징 처리 되어있습니다.<br>
+    글 번호, 제목, 댓글 갯수, 첨부파일 갯수, 작성자, 등록일을 확인할 수 있습니다.<br>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
+    검색 기능으로 제목, 내용, 작성자 키워드를 조합하여 검색 가능합니다.<br>
 
-      <div class="container-fluid">
-        <h1 class="mt-4">Simple Sidebar</h1>
-        <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
-      </div>
-    </div>
-    <!-- /#page-content-wrapper -->
+    게시판의 글 조회는 비회원으로도 가능하며, 글을 작성하려면 로그인을 해야합니다.<br>
+    <a href="/login">로그인</a> 링크나 LOG IN 버튼을 눌러 로그인 가능합니다.<br>
+    일반 로그인, 소셜 로그인이 가능하며 일반 로그인시 테스트 계정을 사용합니다.<br>
+    소셜 로그인시 자동 회원가입 되고 모든 기능 사용 가능합니다.<br>
 
-  </div>
-  <!-- /#wrapper -->
+    REGISTER 버튼을 눌러 글 쓰기가 가능합니다.<br>
+    제목, 내용, 첨부파일 업로드가 가능하며, 이미지 파일의 경우 미리보기로 썸네일이 출력됩니다.<br>
+    자신이 작성한 글일 경우, 해당 글 조회시 MODIFY 버튼이 나타나며 이를 눌러 글 수정이 가능합니다.<br>
+    수정 화면에서 Modify 버튼을 누르면 변경사항이 적용되고, Remove 버튼을 누르면 글이 삭제됩니다.<br>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    각 글의 Reply Count는 댓글의 갯수를 나타내며, 해당 텍스트 버튼 클릭시 댓글이 노출됩니다.<br>
+    Add Reply로 댓글 작성이 가능합니다.<br>
+    해당 댓글을 클릭하면 삭제 또는 수정이 가능합니다.
 
-  <!-- Menu Toggle Script -->
-  <script>
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
-  </script>
 
 </body>
-
 </html>
